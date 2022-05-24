@@ -1,18 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class LoadingScene : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    static string nextScene;
+
+    [SerializeField]
+    Image progressBar;
+
+    public static void LoadScene(string sceneName) //로딩씬 불러
     {
-        
+        nextScene = sceneName;
+        SceneManager.LoadScene("LoadScene");
     }
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-        
+        StartCoroutine(LoadSceneProcess());
+    }
+
+    IEnumerator LoadSceneProcess()
+    {
+        AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
+        op.allowSceneActivation = false;
+        float timer = 0f;
+        while (!op.isDone)
+        {
+            yield return null;
+
+            if (op.progress < 0.9F)
+            {
+                progressBar.fillAmount = op.progress;
+            }
+            else
+            {
+                timer += Time.unscaledDeltaTime;
+                progressBar.fillAmount = Mathf.Lerp(0.9f, 1f, timer);
+                if (progressBar.fillAmount >= 1f)
+                {
+                    op.allowSceneActivation = true;
+                    yield break;
+                }
+            }
+        }
     }
 }

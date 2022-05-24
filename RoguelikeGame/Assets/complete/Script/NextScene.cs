@@ -10,7 +10,7 @@ public class NextScene : MonoBehaviour
     {
         if (Input.anyKeyDown)
         {
-            SceneManager.LoadScene(1);
+            LoadingScene.LoadScene("MainGame");
         }
     }
 }
