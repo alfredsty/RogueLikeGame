@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections;	
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
@@ -10,16 +10,16 @@ public class LoadingScene : MonoBehaviour
     [SerializeField]
     Image progressBar;
 
-    public static void LoadScene(string sceneName) //로딩씬 불러
+    public static void LoadScene(string sceneName) //로딩씬 불러옴
     {
         nextScene = sceneName;
         SceneManager.LoadScene("LoadScene");
     }
 
-    void Start()
+    void Start() // 코루틴 함수 시작
     {
         StartCoroutine(LoadSceneProcess());
-    }
+    }   
 
     IEnumerator LoadSceneProcess()
     {
