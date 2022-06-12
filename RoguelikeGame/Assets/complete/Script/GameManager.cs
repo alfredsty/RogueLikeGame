@@ -10,10 +10,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] public GameObject hero;
     // 타일 하나의 크기 
     [SerializeField] public float UnitSize;
+
     // 시야 밖에 타일이 없으면 타일을 갱신한다.
     readonly float halfSight = 2;
 
-    readonly float speed = 50;
+    readonly float speed = 5;
 
 
     Vector2[] border;
@@ -121,17 +122,17 @@ public class GameManager : MonoBehaviour
             case 0:
                 for (int i = 0; i < 180; i++)
                 {
-                    //새 좌표를 설정한다. 좌측으로 1칸 가려면 아래 배열에서 3을 빼면 된다.
-                    //예를 들어, 7에서 4로 가려면 3을 빼면 된다.
-                    int revise = i - 3;
-
+                    //새 좌표를 설정한다. 좌측으로 1칸 가려면 아래 배열에서 18을 빼면 된다.
+                    //예를 들어, 19에서 1로 가려면 18을 빼면 된다.
+                    int revise = i - 18;
+                      
                     //만약 3을 뺀 값이 0 이상이라면 값을 보정함.
                     //예를 들어, 0은 -3이 아닌 6으로, 1은 -2가 아닌 7로 보낸다.
                     if (revise < 0)
                     {
                         landArray[180 + revise] = _landArray[i];
                         //실제 오브젝트 타일을 바꿈
-                        _landArray[i].transform.position += Vector3.right * UnitSize * 3;
+                        _landArray[i].transform.position += Vector3.right * UnitSize * 18;
                     }
                     else
                         //타일 배열의 인덱스를 업데이트한다. 실제 오브젝트의 좌표는 그대로이다.
@@ -144,13 +145,13 @@ public class GameManager : MonoBehaviour
                 for (int i = 0; i < 180; i++)
                 {
                     //옮길 줄을 특정한다. 맨 아랫 줄은 인덱스 3으로 나눈 나머지가 2이다.
-                    int revise = i % 3;
+                    int revise = i % 10;
 
                     //아래 내용은 서술한 내용과 같음
                     if (revise == 2)
                     {
                         landArray[i - 2] = _landArray[i];
-                        _landArray[i].transform.position += Vector3.up * UnitSize * 3;
+                        _landArray[i].transform.position += Vector3.up * UnitSize * 10;
                     }
                     else
                         landArray[i + 1] = _landArray[i];
@@ -159,12 +160,12 @@ public class GameManager : MonoBehaviour
             case 2:
                 for (int i = 0; i < 180; i++)
                 {
-                    int revise = i + 3;
+                    int revise = i + 18;
 
                     if (revise > 8)
                     {
                         landArray[i + 2] = _landArray[i];
-                        _landArray[i].transform.position -= Vector3.right * UnitSize * 3;
+                        _landArray[i].transform.position -= Vector3.right * UnitSize * 18;
                     }
                     else
                         landArray[revise] = _landArray[i];
@@ -174,12 +175,12 @@ public class GameManager : MonoBehaviour
             case 3:
                 for (int i = 0; i < 180; i++)
                 {
-                    int revise = i % 3;
+                    int revise = i % 10;
 
                     if (revise == 0)
                     {
                         landArray[i + 2] = _landArray[i];
-                        _landArray[i].transform.position -= Vector3.up * UnitSize * 3;
+                        _landArray[i].transform.position -= Vector3.up * UnitSize * 10;
                     }
                     else
                         landArray[i - 1] = _landArray[i];
